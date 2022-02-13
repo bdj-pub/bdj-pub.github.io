@@ -1,0 +1,296 @@
+---
+layout: main
+title: NEWFS_UDF(8) BSD System Manager’s Manual NEWFS_UDF(8)
+---
+<p style="margin-top: 1em" valign="top"><b>NAME</b></p>
+
+<p style="margin-left:8%;"><b>newfs_udf</b> &mdash;
+construct a new UDF file system.</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>SYNOPSIS</b></p>
+
+<p style="margin-left:23%;"><b>newfs_udf</b>
+[<b>&minus;Ndeouw</b>]
+[<b>&minus;b&nbsp;</b><i>block-size</i>]
+[<b>&minus;D&nbsp;</b><i>defect-file-name</i>]
+[<b>&minus;-dup-meta-part-file</b>]
+[<b>&minus;E&nbsp;</b><i>ecc-in-blks</i>]
+[<b>&minus;-enc&nbsp;</b><i>encoding-name</i>]
+[<b>&minus;v&nbsp;</b><i>vol-name</i>]
+[<b>&minus;m&nbsp;</b><i>media-type</i>]
+[<b>&minus;-meta-part-alloc-unit&nbsp;</b><i>n</i>]
+[<b>&minus;-meta-part-align-unit&nbsp;</b><i>n</i>]
+[<b>&minus;-meta-part-init-size&nbsp;</b><i>n</i>]
+[<b>&minus;p&nbsp;</b><i>packet-size</i>]
+[<b>&minus;r&nbsp;</b><i>rev</i>]
+[<b>&minus;s&nbsp;</b><i>size</i>]
+[<b>&minus;S&nbsp;</b><i>start-block-address</i>]
+[<b>&minus;-spare-blks&nbsp;</b><i>n</i>]
+[<b>&minus;t&nbsp;</b><i>access-type</i>]
+[<b>&minus;-unalloc-spc&nbsp;</b><i>blk-addr&nbsp;num-blks</i>]
+[<b>&minus;-wipefs&nbsp;</b><i>yes|no</i>]
+[<b>&minus;-userid&nbsp;</b><i>uid</i>]
+[<b>&minus;U&nbsp;</b><i>uid</i>]
+[<b>&minus;-groupid&nbsp;</b><i>gid</i>]
+[<b>&minus;G&nbsp;</b><i>gid</i>] <i>special</i></p>
+
+
+<p style="margin-top: 1em" valign="top"><b>DESCRIPTION</b></p>
+
+<p style="margin-left:8%;">The <b>newfs_udf</b> command
+builds the UDF filesystem on the specified special
+device.</p>
+
+<p style="margin-left:8%; margin-top: 1em">The options are
+as follows:</p>
+
+<p style="margin-left:8%; margin-top: 1em">General
+options:</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;N</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">Causes the file
+system parameters to be printed out without really creating
+the file system.</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;w</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">Stop processing
+on warnings, default: no</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-wipefs</b>
+<i>yes|no</i></p>
+
+<p style="margin-left:20%;">Whether wipe existing file
+systems on the volume before formatting it. Default: wipe
+existing file systems when media-type is block device (blk),
+access-type is overwrite (ow), and the Keep Disc Open option
+(-o) is not specified; do not wipe existing file systems by
+default in all other cases.</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-largesparse</b></p>
+
+<p style="margin-left:20%;">Format the volume to use a non
+UDF-compliant format to efficiently support very large
+sparse files (up to 2^63 - 1, or 9,223,372,036,854,775,807
+bytes). Sparse files on this volume that has holes larger
+than 1GB cannot be accessed by other UDF
+implementations.</p>
+
+<p style="margin-left:8%; margin-top: 1em">Disc
+properties:</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;b</b>
+<i>block-size</i></p>
+
+<p style="margin-left:20%;">The block size of the file
+system, in bytes, default: the native block size of the
+device, or 2048 for an image file</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;d</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">The file system
+manages defects by creating a sparable partition, default:
+no</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;e</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">Use extended
+file entry instead of file entry, default: no</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;E</b>
+<i>ecc-in-blks</i></p>
+
+<p style="margin-left:20%;">ECC block size in number of
+blocks</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;m</b>
+<i>media-type</i></p>
+
+<p style="margin-left:20%;">The type of the media, can be
+blk (block device), var-packet (varible size packet
+writing), fix-packet (fixed size packet writing), or pow
+(pseudo overwrite), default: blk</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;t</b>
+<i>access-type</i></p>
+
+<p style="margin-left:20%;">The access type of the
+partition, can be wo (writeonce), ow (overwrite), or pow
+(pseudo overwrite), default: ow</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;o</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">Keep the disc
+as open by only writing the first AVDP (e.g., background
+formating haven&rsquo;t finish, so the write of the last two
+AVDPs is not possible), default: close the disc for
+overwrite media, and keep it open for write once media</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;p</b>
+<i>packet-size</i></p>
+
+<p style="margin-left:20%;">The size of a packet in number
+of blocks, default: 1</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;s</b>
+<i>size</i></p>
+
+<p style="margin-left:20%;">Size of the file system in
+blocks, default: size of the device</p>
+
+<p style="margin-left:8%; margin-top: 1em">UDF
+parameters:</p>
+
+<p style="margin-left:8%; margin-top: 1em">General:</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;r</b>
+<i>rev</i></p>
+
+<p style="margin-left:20%; margin-top: 1em">UDF version
+number, can be 1.02, 1.50, 2.00, 2.01, 2.50, or 2.60,
+default: 2.01</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;u</b></p>
+
+<p style="margin-left:20%; margin-top: 1em">Creates unique
+id table (or unique id stream), default: no</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-unalloc-spc</b>
+<i>blk-addr num-blks</i></p>
+
+<p style="margin-left:20%;">Unallocated space recorded in
+unallocated space descriptor, default: no unallocated
+spc</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;v</b>
+<i>vol-name</i></p>
+
+<p style="margin-left:20%;">Volume identifier, max 127
+ascii or 63 unicode chars, default: &quot;Untitled UDF
+Volume&quot;</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-enc</b>
+<i>encoding-name</i></p>
+
+<p style="margin-left:20%;">The character encoding of the
+volume name, can be &quot;utf8&quot; or &quot;utf16&quot;,
+default: utf8</p>
+
+<p style="margin-left:8%; margin-top: 1em">Virtual
+partitions (for CD-R, DVD-R SL/DL, DVD+R SL/DL, and HD DVD-R
+SL/DL):</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;S</b>
+<i>start-block-address</i></p>
+
+<p style="margin-left:20%;">The start block address of the
+last session. Newfs_udf will search for this value for
+optical media</p>
+
+<p style="margin-left:8%; margin-top: 1em">Sparable
+partitions (for CD-RW, DVD-RW, and DVD+RW):</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-spare-blks</b>
+<i>n</i></p>
+
+<p style="margin-left:20%;">Total number of sparing blocks
+(2 sparing tables are always used), default: 128</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;D</b>
+<i>defect-file-name</i></p>
+
+<p style="margin-left:20%;">The name of the file containing
+all defect blocks. This file is a text file, contains the
+physical block address of the media that has defects. When
+one block of a packet is defective, the whole packet is
+marked as defective. The block numbers in the file is
+delimited by space. Multiple numbers can be on the same
+line.</p>
+
+<p style="margin-left:8%; margin-top: 1em">Metadata
+partitions (for BD-R with POW, BD-RE and other overwritable
+media with UDF 2.50 or higher ):</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-dup-meta-part-file</b></p>
+
+<p style="margin-left:20%;">Duplicate the content of the
+metadata file in the metadata mirror file, default: no</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-meta-part-alloc-unit</b>
+<i>n</i></p>
+
+<p style="margin-left:20%;">The allocation unit size of the
+metadata partition in number of blocks, default: max(32,
+eccSizeInBlks, packetSize)</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-meta-part-align-unit</b>
+<i>n</i></p>
+
+<p style="margin-left:20%;">The alignment unit size of the
+metadata partition in number of blocks, default:
+max(eccSizeInBlks, packetSize)</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-meta-part-init-size</b>
+<i>n</i></p>
+
+<p style="margin-left:20%;">The initial size of the
+metadata partition in number of blocks, default: 32</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-userid</b>
+<i>uid</i></p>
+
+<p style="margin-left:20%;">or</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;U</b>
+<i>uid</i></p>
+
+<p style="margin-left:20%; margin-top: 1em">Use the
+specified <i>uid</i> (numeric value only) as the owner of
+the root directory.</p>
+
+
+<p style="margin-top: 1em" valign="top"><b>&minus;-groupid</b>
+<i>gid</i></p>
+
+<p style="margin-left:20%;">or</p>
+
+<p style="margin-top: 1em" valign="top"><b>&minus;G</b>
+<i>gid</i></p>
+
+<p style="margin-left:20%; margin-top: 1em">Use the
+specified <i>gid</i> (numeric value only) as the group of
+the root directory.</p>
+
+<p style="margin-top: 1em" valign="top"><b>SEE ALSO</b></p>
+
+<p style="margin-left:8%;">newfs(8)</p>
+
+<p style="margin-top: 1em" valign="top"><b>BUGS</b></p>
+
+<p style="margin-left:8%;">Unallocated space is not
+supported yet.</p>
+
+<p style="margin-top: 1em" valign="top"><b>HISTORY</b></p>
+
+<p style="margin-left:8%;">The <b>newfs_udf</b> utility
+first appeared in Mac OS X Leopard (10.5.0).</p>
+
+<p style="margin-left:8%; margin-top: 1em">Mac OS
+July&nbsp;12, 2005 Mac OS</p>

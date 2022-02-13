@@ -1,0 +1,10 @@
+title: BDJ – Publishing on Blu-ray Disc with Java.
+email: service@bdj.pub
+description: Publishing on Blu-ray Disc with Java ❤️‍🔥💿☕ BD-J, HD Cookbook
+url: "https://bdj.pub"
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - docker-compose.yml
